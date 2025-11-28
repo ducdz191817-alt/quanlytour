@@ -10,14 +10,14 @@ class Tour
 
     public function getAll()
     {
-        $sql = "SELECT * FROM tours ORDER BY id DESC";
+        $sql = "SELECT * FROM tb_tour ORDER BY id DESC";
         $stmt = $this->conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getById($id)
     {
-        $sql = "SELECT * FROM tours WHERE id = :id";
+        $sql = "SELECT * FROM tb_tour WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -25,8 +25,10 @@ class Tour
 
     public function create($data)
     {
-        $sql = "INSERT INTO tours (name, type, price, schedule, policy, supplier, image)
-                VALUES (:name, :type, :price, :schedule, :policy, :supplier, :image)";
+        $sql = "INSERT INTO tb_tour 
+                (ma_tour, ten_tour, id_danhmuc, gia_tien, ngay_batdau, ngay_ketthuc, mo_ta, lich_trinh, hinh_anh)
+                VALUES 
+                (:ma_tour, :ten_tour, :id_danhmuc, :gia_tien, :ngay_batdau, :ngay_ketthuc, :mo_ta, :lich_trinh, :hinh_anh)";
 
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute($data);
@@ -34,14 +36,16 @@ class Tour
 
     public function update($data)
     {
-        $sql = "UPDATE tours SET 
-                name = :name,
-                type = :type,
-                price = :price,
-                schedule = :schedule,
-                policy = :policy,
-                supplier = :supplier,
-                image = :image
+        $sql = "UPDATE tb_tour SET 
+                ma_tour = :ma_tour,
+                ten_tour = :ten_tour,
+                id_danhmuc = :id_danhmuc,
+                gia_tien = :gia_tien,
+                ngay_batdau = :ngay_batdau,
+                ngay_ketthuc
+                mo_ta = :mo_ta,
+                lich_trinh = :lich_trinh,
+                hinh_anh = :hinh_anh
                 WHERE id = :id";
 
         $stmt = $this->conn->prepare($sql);
@@ -50,7 +54,7 @@ class Tour
 
     public function delete($id)
     {
-        $sql = "DELETE FROM tours WHERE id = :id";
+        $sql = "DELETE FROM tb_tour WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute(['id' => $id]);
     }
